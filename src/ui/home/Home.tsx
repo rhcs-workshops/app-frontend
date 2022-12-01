@@ -9,7 +9,7 @@ const cx = bind(styles);
 interface Props {}
 
 export const Home: React.FunctionComponent<Props> = () => {
-  const appBack = process.env.REACT_APP_BACK || 'www.google.es'
+  const appBack = process.env.REACT_APP_BACK || 'http://localhost:8080/dstrategies-back'
 
   const [calls, setCalls] = useState(1);
   const [callsInterval, setCallsInterval] = useState(1);
@@ -21,6 +21,10 @@ export const Home: React.FunctionComponent<Props> = () => {
     }
   };
   const [callLogs, setCallLogs] = useState({ ...jumpLogTest });
+
+  const timeLog = new Date();
+  const time = timeLog.getTime();
+  const date = new Date(time);
 
   const sendJumps = async () => {
     setCallLogs({ ...jumpLogTest });
@@ -35,8 +39,13 @@ export const Home: React.FunctionComponent<Props> = () => {
       var jump: ResponseBack = {} as any;
 
       jump = await getBack(appBack);
-
-      setCallLogs({ ...jump });
+      const item: ResponseBack = {
+        metadata: {
+          version: JSON.stringify(jump.metadata.version),
+          colour: JSON.stringify(jump.metadata.colour),
+        }
+      };
+      setCallLogs({ ...item });
     }
   };
 
@@ -86,6 +95,9 @@ export const Home: React.FunctionComponent<Props> = () => {
       </div>
       <div role='jumplog' className={cx('logs')}>
         <div className={cx('logs-items')}>
+          <p>
+            {date.toString()}
+          </p>
           <p>
             {callLogs.metadata.colour} {callLogs.metadata.version}
           </p>

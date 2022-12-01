@@ -6,8 +6,11 @@ export const getBack = async (
 ): Promise<ResponseBack> => {
 
   const instance = axios.create({
-    baseURL: 'url',
+    baseURL: url,
     timeout: 1000,
+    headers: {
+      'Content-Type': 'application/json',
+    }
   });
 
   const responseFailed: ResponseBack = {
@@ -20,8 +23,9 @@ export const getBack = async (
   // Execute Get
   try {
     let response: any;
-    response = await instance.get;  
-    console.log(response.data)
+    response = await instance.get("");  
+    console.log(response.status)
+    console.log(url)
     if (response.data != null) {
       return response.data
     } 
