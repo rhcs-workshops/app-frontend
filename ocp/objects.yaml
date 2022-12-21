@@ -1,0 +1,39 @@
+---
+# Source: jump-app-cicd/templates/imagestream.yaml
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  labels:
+    app: dstrategies-frontend
+  name: dstrategies-frontend
+spec:
+  lookupPolicy:
+    local: false
+---
+# Source: jump-app-cicd/templates/buildconfig.yaml
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  labels:
+    app: dstrategies-frontend
+  name: dstrategies-frontend
+spec:
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: dstrategies-frontend:latest
+  postCommit: {}
+  resources: {}
+  source:
+    git:
+      uri: https://github.com/rhte2023-argo-rollouts/dstrategies-frontend.git
+      ref: master
+    type: Git
+  strategy:
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: nodejs:latest
+        namespace: openshift
+    type: Source

@@ -1,0 +1,33 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: dstrategies-frontend
+    version: v1
+  name: dstrategies-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dstrategies-frontend
+  template:
+    metadata:
+      labels:
+        name: dstrategies-frontend
+        app: dstrategies-frontend
+        version: v1
+    spec:
+      containers:
+      - image: quay.io/acidonpe/dstrategies-frontend
+        imagePullPolicy: Always
+        name: dstrategies-frontend
+        ports:
+          - containerPort: 3000
+            protocol: TCP
+        resources: {}
+        env:  
+          - name: REACT_APP_BACK
+            value: https://dstrategies-back-online-user01-blue-green.apps.acidonpe19.sandbox2617.opentlc.com/dstrategies-back
+          - name: REACT_APP_CATEGORY
+            value: BLUE-GREEN
