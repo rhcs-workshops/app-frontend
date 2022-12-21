@@ -98,6 +98,7 @@ export const Home: React.FunctionComponent<Props> = () => {
           <p>
             {date.toString()}
           </p>
+          <br />
           <p>
             {callLogs.metadata.colour} {callLogs.metadata.version}
           </p>
